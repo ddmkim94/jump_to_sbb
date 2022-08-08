@@ -45,9 +45,9 @@ public class MainController {
                 .collect(Collectors.joining("<br>\n"));
     }
 
-    @GetMapping("/mbti")
+    @GetMapping("/mbti/{name}")
     @ResponseBody
-    public String showMbti(@RequestParam String name) {
+    public String showMbti(@PathVariable String name) {
         Map<String, String> map = new HashMap<>();
         map.put("홍길동", "INFP");
         map.put("홍길순", "ENFP");
