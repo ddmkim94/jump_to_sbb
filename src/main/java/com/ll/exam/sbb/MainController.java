@@ -3,11 +3,59 @@ package com.ll.exam.sbb;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 @Controller
 public class MainController {
 
     private static int count = 0;
 
+    @GetMapping("/gugudan")
+    @ResponseBody
+    public String showGugudan(@RequestParam int dan, @RequestParam int limit) {
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= limit; i++) {
+            String str = """
+                    %d * %d = %d
+                    """.formatted(dan, i, dan * i);
+            sb.append(str).append("<br>");
+        }
+
+        return sb.toString();
+    }
+
+    @GetMapping("/gugudanS")
+    @ResponseBody
+    public String showGugudanByStream(Integer dan, Integer limit) {
+        if (limit == null) {
+            limit = 9;
+        }
+
+        if (dan == null) {
+            dan = 9;
+        }
+
+        Integer finalDan = dan;
+        return IntStream.rangeClosed(1, limit)
+                .mapToObj(i -> "%d * %d = %d".formatted(finalDan, i, finalDan * i))
+                .collect(Collectors.joining("<br>\n"));
+    }
+
+    @GetMapping("/mbti")
+    @ResponseBody
+    public String showMbti(@RequestParam String name) {
+        Map<String, String> map = new HashMap<>();
+        map.put("홍길동", "INFP");
+        map.put("홍길순", "ENFP");
+        map.put("박은빈", "INFJ");
+        map.put("김동민", "INFP");
+
+        return map.get(name);
+    }
     @GetMapping("/plus")
     @ResponseBody
     // @RequestParam name 속성에 원하는 파라미터 이름을 지정하면 그 이름으로 받아올 수 있다!
