@@ -6,6 +6,27 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class MainController {
 
+    private static int count = 0;
+
+    @GetMapping("/plus")
+    @ResponseBody
+    // @RequestParam name 속성에 원하는 파라미터 이름을 지정하면 그 이름으로 받아올 수 있다!
+    public int showPlus(@RequestParam("num1") int a, @RequestParam int b) {
+        return a + b;
+    }
+
+    @GetMapping("/minus")
+    @ResponseBody
+    public int showMinus(@RequestParam int a, @RequestParam int b) {
+        return a - b;
+    }
+
+    @GetMapping("/increase")
+    @ResponseBody
+    public int showIncrease() {
+        return count++;
+    }
+
     @RequestMapping("/sbb")
     @ResponseBody
     // 메서드의 리턴값을 그대로 브라우저에 표시!
