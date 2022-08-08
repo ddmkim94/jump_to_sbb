@@ -1,17 +1,36 @@
 package com.ll.exam.sbb;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
+@RequiredArgsConstructor
 public class MainController {
 
     private static int count = 0;
+    private final HttpSession session;
+
+    @GetMapping("/saveSessionAge/{age}")
+    @ResponseBody
+    public void saveSessionAge(@PathVariable int age) {
+        session.setAttribute("age", age);
+    }
+
+    @GetMapping("/getSessionAge")
+    @ResponseBody
+    public int getSessionAge() {
+        // req -> 쿠키 -> JSSEIONID -> 세션을 얻을 수 있다.
+        return (int) session.getAttribute("age");
+    }
 
     @GetMapping("/gugudan")
     @ResponseBody
