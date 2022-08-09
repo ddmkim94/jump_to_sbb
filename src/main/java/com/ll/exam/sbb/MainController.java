@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -17,7 +19,27 @@ import java.util.stream.IntStream;
 public class MainController {
 
     private static int count = 0;
+    private static Long articleNo = 0L;
+    private static final List<Article> articleList = new ArrayList<>();
     private final HttpSession session;
+
+    @GetMapping("/addArticle")
+    @ResponseBody
+    public String addArticle(@RequestParam String title, @RequestParam String body) {
+        articleList.add(new Article(++articleNo, title, body));
+        return "%d번 글이 등록되었습니다.".formatted(articleNo);
+    }
+
+    @GetMapping("/article/{id}")
+    @ResponseBody
+    public Article getArticle(@PathVariable Long id) {
+        for (Article article : articleList) {
+            if(article.getId().equals(id)) {
+                return article;
+            }
+        }
+        return null;
+    }
 
     @GetMapping("/saveSessionAge/{age}")
     @ResponseBody
