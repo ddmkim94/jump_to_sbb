@@ -19,4 +19,9 @@ public class Article {
     public Article(String title, String body) {
         this(++lastId, title, body);
     }
+
+    public void changeArticle(String title, String body) {
+        this.title = title;
+        this.body = body;
+    }
 }

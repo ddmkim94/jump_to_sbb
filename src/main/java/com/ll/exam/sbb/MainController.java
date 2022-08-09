@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -19,8 +16,28 @@ import java.util.stream.IntStream;
 public class MainController {
 
     private static int count = 0;
-    private static final List<Article> articleList = new ArrayList<>();
     private final HttpSession session;
+    private final List<Article> articleList = new ArrayList<>(
+            Arrays.asList(new Article("제목1", "내용1"), new Article("제목2", "내용2")));
+
+    @GetMapping("/deleteArticle")
+    @ResponseBody
+    public String deleteArticle(@RequestParam Long id) {
+        articleList.removeIf(article -> article.getId().equals(id));
+        return "%d번 게시물이 삭제되었습니다.".formatted(id);
+    }
+
+    @GetMapping("/modifyArticle")
+    @ResponseBody
+    public String modifyArticle(@RequestParam Long id, @RequestParam String title, @RequestParam String body) {
+        for (Article article : articleList) {
+            if (article.getId().equals(id)) {
+                article.changeArticle(title, body);
+                return "%d번 게시물이 수정되었습니다.".formatted(id);
+            }
+        }
+        return "%d번 게시물은 존재하지 않습니다.".formatted(id);
+    }
 
     @GetMapping("/addArticle")
     @ResponseBody
@@ -35,9 +52,9 @@ public class MainController {
     public Article getArticle(@PathVariable Long id) {
         Article article = articleList
                 .stream()
-                .filter(a -> a.getId() == id) // 1번
+                .filter(a -> a.getId().equals(id)) // 1번
                 .findFirst()
-                .get();
+                .orElse(null);
 
         return article;
     }
