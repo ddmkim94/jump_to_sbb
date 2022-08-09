@@ -20,6 +20,12 @@ public class MainController {
     private final List<Article> articleList = new ArrayList<>(
             Arrays.asList(new Article("제목1", "내용1"), new Article("제목2", "내용2")));
 
+    @GetMapping("/addPerson/{id}")
+    @ResponseBody
+    public Person addPerson(Person person) {
+        return person;
+    }
+
     @GetMapping("/deleteArticle")
     @ResponseBody
     public String deleteArticle(@RequestParam Long id) {
