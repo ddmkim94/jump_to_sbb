@@ -11,12 +11,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Article {
 
+    private static Long lastId = 0L;
     private Long id;
     private String title;
     private String body;
 
     public Article(String title, String body) {
-        this.title = title;
-        this.body = body;
+        this(++lastId, title, body);
     }
 }

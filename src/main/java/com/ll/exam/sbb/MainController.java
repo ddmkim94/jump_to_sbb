@@ -19,26 +19,27 @@ import java.util.stream.IntStream;
 public class MainController {
 
     private static int count = 0;
-    private static Long articleNo = 0L;
     private static final List<Article> articleList = new ArrayList<>();
     private final HttpSession session;
 
     @GetMapping("/addArticle")
     @ResponseBody
     public String addArticle(@RequestParam String title, @RequestParam String body) {
-        articleList.add(new Article(++articleNo, title, body));
-        return "%d번 글이 등록되었습니다.".formatted(articleNo);
+        Article article = new Article(title, body);
+        articleList.add(article);
+        return "%d번 게시물이 생성되었습니다.".formatted(article.getId());
     }
 
     @GetMapping("/article/{id}")
     @ResponseBody
     public Article getArticle(@PathVariable Long id) {
-        for (Article article : articleList) {
-            if(article.getId().equals(id)) {
-                return article;
-            }
-        }
-        return null;
+        Article article = articleList
+                .stream()
+                .filter(a -> a.getId() == id) // 1번
+                .findFirst()
+                .get();
+
+        return article;
     }
 
     @GetMapping("/saveSessionAge/{age}")
