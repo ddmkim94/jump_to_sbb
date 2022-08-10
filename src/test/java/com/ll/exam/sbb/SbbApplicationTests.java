@@ -5,6 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class SbbApplicationTests {
@@ -29,6 +33,24 @@ class SbbApplicationTests {
 		q2.setContent("id는 자동으로 생성되나요?");
 		q2.setCreateDate(LocalDateTime.now());
 		questionRepository.save(q2);  // 두번째 질문 저장
+
+		assertThat(q1.getId()).isGreaterThan(0);
+		assertThat(q2.getId()).isGreaterThan(q1.getId());
+	}
+
+	@Test
+	void findAllTest() throws Exception {
+		List<Question> all = questionRepository.findAll();
+		assertEquals(2, all.size());
+
+		Question q = all.get(0);
+		assertEquals("sbb가 무엇인가요?", q.getSubject());
+	}
+
+	@Test
+	void findBySubjectTest() throws Exception {
+		Question q = questionRepository.findBySubject("sbb가 무엇인가요?");
+		assertEquals(1, q.getId());
 	}
 
 }
