@@ -10,6 +10,9 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 
     Question findBySubjectAndContent(String subject, String content);
 
+    Question findBySubjectLike(String keyword);
+
+    // @Query에는 한 개의 쿼리만 넣을 수 있다! 단, 카운팅 쿼리는 분리해서 넣을 수 있음
     @Transactional
     @Modifying
     @Query(value = "SET FOREIGN_KEY_CHECKS = 0", nativeQuery = true)
