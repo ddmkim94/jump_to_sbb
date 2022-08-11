@@ -60,4 +60,10 @@ class SbbApplicationTests {
 		assertEquals(1, q.getId());
 	}
 
+	@Test
+	void QnaTruncateTest() throws Exception {
+		questionRepository.disableForeignKeyCheck(); // 외래키 제약 조건 해제
+		questionRepository.truncateSomethingTable(); // truncate
+		questionRepository.enableForeignKeyCheck(); // 외래키 제약 조건 연결
+	}
 }
