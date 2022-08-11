@@ -12,17 +12,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class QuestionRepositoryTest {
 
-    @Autowired
-    private QuestionRepository questionRepository;
+    @Autowired private QuestionRepository questionRepository;
+    private static int lastSampleDataId;
 
     // 각 테스트 실행전에 남아있던 데이터를 지우고 다시 생성
     @BeforeEach
     public void beforeEach() {
-        clearDate();
-        createSampleDate();
+        clearData();
+        createSampleData();
     }
 
-    private void createSampleDate() {
+    public static int createSampleData(QuestionRepository questionRepository) {
         Question q1 = new Question();
         q1.setSubject("sbb가 무엇인가요?");
         q1.setContent("sbb에 대해서 알고 싶습니다.");
@@ -30,16 +30,26 @@ public class QuestionRepositoryTest {
         questionRepository.save(q1);
 
         Question q2 = new Question();
-        q1.setSubject("이상한 변호사 우영우");
-        q1.setContent("고래고래고래고래고래");
-        q1.setCreateDate(LocalDateTime.now());
+        q2.setSubject("스프링부트 모델 질문입니다.");
+        q2.setContent("id는 자동으로 생성되나요?");
+        q2.setCreateDate(LocalDateTime.now());
         questionRepository.save(q2);
+
+        return q2.getId();
     }
 
-    private void clearDate() {
+    private void createSampleData() {
+        lastSampleDataId = createSampleData(questionRepository);
+    }
+
+    public static void clearData(QuestionRepository questionRepository) {
         questionRepository.disableForeignKeyCheck();
-        questionRepository.truncateSomethingTable();
+        questionRepository.truncate();
         questionRepository.enableForeignKeyCheck();
+    }
+
+    private void clearData() {
+        clearData(questionRepository);
     }
 
     @Test
@@ -84,7 +94,7 @@ public class QuestionRepositoryTest {
         Question findQuestion = questionRepository.findBySubjectAndContent("sbb가 무엇인가요?", "sbb에 대해서 알고 싶습니다.");
         assertThat(findQuestion).isNotNull();
     }
-    
+
     @Test
     void findBySubjectLike() throws Exception {
         Question findQuestion = questionRepository.findBySubjectLike("sbb%");
