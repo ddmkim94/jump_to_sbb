@@ -24,7 +24,10 @@ public class AnswerRepositoryTest {
     }
 
     private void clearData() {
-        questionRepository.truncateTable();
+        QuestionRepositoryTest.clearData(questionRepository);
+
+        answerRepository.deleteAll(); // DELETE FROM question;
+        answerRepository.truncateTable();
     }
 
     private void createSampleData() {
