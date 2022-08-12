@@ -8,18 +8,10 @@ public interface RepositoryUtil {
     @Transactional
     @Modifying
     @Query(value = "SET FOREIGN_KEY_CHECKS = 0", nativeQuery = true)
-    void disableForeignKeyChecks();
+    void disableForeignKeyCheck();
 
     @Transactional
     @Modifying
     @Query(value = "SET FOREIGN_KEY_CHECKS = 1", nativeQuery = true)
-    void enableForeignKeyChecks();
-
-    void truncate();
-
-    default void truncateTable() {
-        disableForeignKeyChecks();
-        truncate();
-        enableForeignKeyChecks();
-    }
+    void enableForeignKeyCheck();
 }
