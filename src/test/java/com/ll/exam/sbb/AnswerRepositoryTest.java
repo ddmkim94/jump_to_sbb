@@ -24,18 +24,25 @@ public class AnswerRepositoryTest {
     private void clearData() {
         QuestionRepositoryTest.clearData(questionRepository);
 
-        questionRepository.disableForeignKeyCheck();
+        answerRepository.disableForeignKeyCheck();
         answerRepository.truncate();
-        questionRepository.enableForeignKeyCheck();
+        answerRepository.enableForeignKeyCheck();
     }
 
     private void createSampleData() {
         QuestionRepositoryTest.createSampleData(questionRepository);
+        Question q = questionRepository.findById(1).get();
+
+        Answer a = new Answer();
+        a.setContent("네 자동으로 생성됩니다.");
+        a.setQuestion(q);
+        a.setCreateDate(LocalDateTime.now());
+        answerRepository.save(a);
     }
 
     @Test
     void 저장() {
-        Question q = questionRepository.findById(2).get();
+        Question q = questionRepository.findById(1).get();
 
         Answer a = new Answer();
         a.setContent("네 자동으로 생성됩니다.");
