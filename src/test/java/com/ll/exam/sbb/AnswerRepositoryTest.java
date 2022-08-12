@@ -22,11 +22,7 @@ public class AnswerRepositoryTest {
     }
 
     private void clearData() {
-        QuestionRepositoryTest.clearData(questionRepository);
-
-        answerRepository.disableForeignKeyCheck();
-        answerRepository.truncate();
-        answerRepository.enableForeignKeyCheck();
+        questionRepository.truncateTable();
     }
 
     private void createSampleData() {
