@@ -24,4 +24,10 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answerList = new ArrayList<>();
+
+    // 연관관계 편의 메서드
+    public void addAnswer(Answer answer) {
+        answer.setQuestion(this);
+        getAnswerList().add(answer);
+    }
 }
