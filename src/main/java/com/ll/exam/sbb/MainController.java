@@ -15,6 +15,11 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class MainController {
 
+    @RequestMapping("/")
+    public String root() {
+        return "redirect:/question/list";
+    }
+
     private static int count = 0;
     private final HttpSession session;
     private final List<Article> articleList = new ArrayList<>(
