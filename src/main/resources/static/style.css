@@ -1,0 +1,11 @@
+.container {
+    margin: 20px;
+}
+textarea {
+    width:100%;
+}
+
+input[type=submit],
+button[type=submit] {
+    margin-top:10px;
+}
