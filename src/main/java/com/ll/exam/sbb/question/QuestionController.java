@@ -22,7 +22,7 @@ public class QuestionController {
         // questionList 라는 이름으로 questionList 변수를 사용할 수 있다.
         model.addAttribute("questionList", questionList);
 
-        return "question list";
+        return "question_list";
     }
 
     @RequestMapping("/question/list2")
