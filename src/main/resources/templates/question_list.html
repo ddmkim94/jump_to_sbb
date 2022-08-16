@@ -5,16 +5,24 @@
     <title>Title</title>
 </head>
 <body>
-<table border="1">
-    <h1>이민경 휘오</h1>
-  <tr>
-    <td>11333</td>
-    <td>11444</td>
-  </tr>
-  <tr>
-    <td>22555</td>
-    <td>33333</td>
-  </tr>
+<table>
+    <thead>
+        <tr>
+            <th>제목</th>
+            <th>작성일</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="question, loop : ${questionList}">
+            <td>
+                [[${loop.count}]] / [[${loop.size}]]
+            </td>
+            <td>
+                [[${question.subject}]]
+            </td>
+            <td th:text="|Date. ${#strings.substring(question.createDate, 2, 16)}|"></td>
+        </tr>
+    </tbody>
 </table>
 </body>
 </html>
